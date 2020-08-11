@@ -44,8 +44,8 @@ function preload() {
   myFont = loadFont('assets/SDSwagger.otf');
 
   bg_before_gatcha = createVideo(['assets/bg_before_gatcha.mp4']);
-  bg_gatcha = createVideo(['assets/bg_gatcha.mp4']);
-  bg_gatcha_rare = createVideo(['assets/bg_gatcha_rainbow.mp4']);
+  bg_gatcha = createVideo(['assets/blue.mp4']);
+  bg_gatcha_rare = createVideo(['assets/colors.mp4']);
   bg_before_gatcha.hide();
   bg_gatcha.hide();
   bg_gatcha_rare.hide();
