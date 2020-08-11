@@ -37,46 +37,46 @@ let nowX = 0,
 let myFont;
 
 function preload() {
-  myFont = loadFont('/assets/SDSwagger.otf');
+  myFont = loadFont('assets/SDSwagger.otf');
 
-  bg_before_gatcha = createVideo(['/assets/bg_before_gatcha.mp4']);
-  bg_gatcha = createVideo(['/assets/bg_gatcha.mp4']);
-  bg_gatcha_rare = createVideo(['/assets/bg_gatcha.mp4']);//_rainbow.mp4']);
+  bg_before_gatcha = createVideo(['assets/bg_before_gatcha.mp4']);
+  bg_gatcha = createVideo(['assets/bg_gatcha.mp4']);
+  bg_gatcha_rare = createVideo(['assets/bg_gatcha.mp4']);//_rainbow.mp4']);
   bg_before_gatcha.hide();
   bg_gatcha.hide();
   bg_gatcha_rare.hide();
-  bg_main = loadImage('/assets/bg_main.png');
-  bg_wait = loadImage('/assets/bg_main.png');
-  bg_each_card = loadImage('/assets/bg_each_card.png');
-  bg_result = loadImage('/assets/bg_result.png');
-  bg_album = loadImage('/assets/bg_album.png');
+  bg_main = loadImage('assets/bg_main.png');
+  bg_wait = loadImage('assets/bg_main.png');
+  bg_each_card = loadImage('assets/bg_each_card.png');
+  bg_result = loadImage('assets/bg_result.png');
+  bg_album = loadImage('assets/bg_album.png');
 
-  ui_coin = loadImage('/assets/ui_coin.png');
-  icon_lock = loadImage('/assets/icon_lock.png');
-  icon_star = loadImage('/assets/icon_star.png');
-  icon_twinkle = loadImage('/assets/icon_twinkle.png');
+  ui_coin = loadImage('assets/ui_coin.png');
+  icon_lock = loadImage('assets/icon_lock.png');
+  icon_star = loadImage('assets/icon_star.png');
+  icon_twinkle = loadImage('assets/icon_twinkle.png');
 
-  arrow_left = loadImage('/assets/arrow_left.png');
-  arrow_right = loadImage('/assets/arrow_right.png');
+  arrow_left = loadImage('assets/arrow_left.png');
+  arrow_right = loadImage('assets/arrow_right.png');
 
-  btn_1x = loadImage('/assets/btn_1x.png');
-  btn_10x = loadImage('/assets/btn_10x.png');
-  btn_skip = loadImage('/assets/btn_skip.png');
+  btn_1x = loadImage('assets/btn_1x.png');
+  btn_10x = loadImage('assets/btn_10x.png');
+  btn_skip = loadImage('assets/btn_skip.png');
 
   for (let i = 0; i < 24; i++) {
     if (i < 9) {
-      img_letterA.push(loadImage('/assets/letters/normal0' + (i + 1) + '.png'));
+      img_letterA.push(loadImage('assets/letters/normal0' + (i + 1) + '.png'));
     } else {
-      img_letterA.push(loadImage('/assets/letters/normal' + (i + 1) + '.png'));
+      img_letterA.push(loadImage('assets/letters/normal' + (i + 1) + '.png'));
     }
     is_letter_shown.push(false);
   }
 
   for (let i = 0; i < 23; i++) {
     if (i < 10) {
-      img_letterB.push(loadImage('/assets/letters/rare0' + (i) + '.png'));
+      img_letterB.push(loadImage('assets/letters/rare0' + (i) + '.png'));
     } else {
-      img_letterB.push(loadImage('/assets/letters/rare' + (i) + '.png'));
+      img_letterB.push(loadImage('assets/letters/rare' + (i) + '.png'));
     }
 
     is_letter_shown.push(false);
