@@ -93,7 +93,8 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(1280, 720);
+  myCanvas = createCanvas(1280, 720);
+  myCanvas.parent('sketch')
   center_pos = new p5.Vector(width * 0.5, height * 0.5);
   // specify multiple formats for different browsers
   // by default video shows up in separate dom
