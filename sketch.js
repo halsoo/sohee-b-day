@@ -1,3 +1,5 @@
+let bgm;
+
 let bg;
 let bg_before_gatcha, bg_gatcha, bg_gatcha_rare, bg_each_card, bg_viewer, window_coin;
 let bg_main, bg_wait, bg_result, bg_album;
@@ -18,8 +20,9 @@ let center_pos;
 
 let img_letterA = [];
 let img_letterB = [];
-let letter_name = ["제로", "제로", "HiMERU", "오우카와 코하쿠", "아마기 린네", "20폼의 성좌", "인천 방향의 성좌", "할아버지의 기록", "홍소영의 앨범", "사랑의 마스코트 팬", "제로", "시이나 니키", "토모에 히요리", "미케지마 마다라", "제로", "?", "태우", "태우", "태우", "95년생 팬", "Showyourmind", "goodsoon96", "nicosj", "하버드", "동민", "준구", "보현", "도균", "상규", "김신", "준하", "윤정", "카카오의 새얼굴", "지원", "은비 선배", "동호", "진경", "별이", "FANNIE", "CAROLE&JACQUES", "Little Fucker", "아버지", "어머니", "소영", "Jin Youngwoo", "Loulou", "지현"];
-let letter_price = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 6, 6, 6, 6, 12, 8, 8, 8, 8, 8, 13, 15, 14, 18, 12, 16, 16, 16, 20, 20, 33, 50, 50, 55, 25, 52, 15];
+let img_letterC = [];
+let letter_name = ["제로", "제로", "HiMERU", "오우카와 코하쿠", "아마기 린네", "20폼의 성좌", "인천 방향의 성좌", "할아버지의 기록", "홍소영의 앨범", "사랑의 마스코트 팬", "제로", "시이나 니키", "토모에 히요리", "미케지마 마다라", "제로", "?", "태우", "태우", "태우", "95년생 팬", "Showyourmind", "goodsoon96", "nicosj", "하버드", "동민", "준구", "보현", "도균", "상규", "김신", "준하", "윤정", "카카오의 새얼굴", "시간 여행의 동료", "은비 선배", "동호", "진경", "별이", "FANNIE", "CAROLE&JACQUES", "Little Fucker", "아버지", "어머니", "소영", "Jin Youngwoo", "Loulou", "지현", "올제로", "올제로"];
+let letter_price = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 6, 6, 6, 6, 12, 8, 8, 8, 8, 8, 13, 15, 14, 18, 12, 16, 16, 16, 20, 20, 33, 50, 50, 55, 25, 52, 15, 100, 100];
 let is_letter_shown = [];
 
 let index = 0;
@@ -44,8 +47,8 @@ function preload() {
   myFont = loadFont('assets/SDSwagger.otf');
 
   bg_before_gatcha = createVideo(['assets/bg_before_gatcha.mp4']);
-  bg_gatcha = createVideo(['assets/blue.mp4']);
-  bg_gatcha_rare = createVideo(['assets/colors.mp4']);
+  bg_gatcha = createVideo(['assets/bg_gatcha.mp4']);
+  bg_gatcha_rare = createVideo(['assets/bg_gatcha_rainbow.mp4']);
   bg_before_gatcha.hide();
   bg_gatcha.hide();
   bg_gatcha_rare.hide();
@@ -88,19 +91,28 @@ function preload() {
     is_letter_shown.push(false);
   }
 
-  max_album_page = floor((img_letterA.length + img_letterB.length) / 10);
+  img_letterC.push(loadImage('assets/letters/letter00.png'));
+  img_letterC.push(loadImage('assets/letters/letter000.png'));
+  is_letter_shown.push(false);
+  is_letter_shown.push(false);
 
+  max_album_page = floor((img_letterA.length + img_letterB.length + img_letterC.length) / 10);
+
+    
+  bgm = loadSound('assets/bgm.mp3');
+  bgm.playMode('restart');
+  
 }
 
 function setup() {
-  myCanvas = createCanvas(1280, 720);
-  myCanvas.parent('sketch')
+  let canvas = createCanvas(1280, 720);
+  canvas.parent('sketch');
   center_pos = new p5.Vector(width * 0.5, height * 0.5);
   // specify multiple formats for different browsers
   // by default video shows up in separate dom
   // element. hide it and draw it to the canvas
   // instead
-
+  bgm.loop();
 }
 
 function draw() {
@@ -185,28 +197,33 @@ function draw() {
           }
           if (index < img_letterA.length) {
             image(img_letterA[index], width / 6 * (i + 1), height / 3 * (j + 1), img_letterA[index].width * 0.25, img_letterA[index].height * 0.25);
-          } else {
+          } else if (index < img_letterA.length + img_letterB.length) {
             new_index = index - img_letterA.length;
-            if (new_index < img_letterB.length) {
+            if (new_index < img_letterB.length)
+
               image(img_letterB[new_index], width / 6 * (i + 1), height / 3 * (j + 1), img_letterB[new_index].width * 0.25, img_letterB[new_index].height * 0.25);
-            }
+          } else {
+            new_index = index - img_letterA.length - img_letterB.length;
+            if (new_index < img_letterC.length)
+
+              image(img_letterC[new_index], width / 6 * (i + 1), height / 3 * (j + 1), img_letterC[new_index].width * 0.25, img_letterB[new_index].height * 0.25);
           }
+
           if (is_letter_shown[index] == false) {
             noTint();
             image(icon_lock, width / 6 * (i + 1), height / 3 * (j + 1));
           }
         }
       }
-
       if (is_coin_window_shown) {
         image(window_coin, center_pos.x, center_pos.y);
         textFont(myFont);
         textSize(24);
         textAlign(CENTER);
         fill(12, 25, 93);
-        
+
         if (coins - letter_price[now_selected_index] >= 0) {
-          text(coins + "->" +(coins - letter_price[now_selected_index]), 620, 410);
+          text(coins + "->" + (coins - letter_price[now_selected_index]), 620, 410);
 
         } else {
           text(-(coins - letter_price[now_selected_index]) + "코인이 부족합니다", 620, 410);
@@ -223,6 +240,8 @@ function draw() {
       textFont(myFont);
       textSize(80);
       textAlign(RIGHT);
+      fill(12, 25, 93);
+      rect(1275 - textWidth(letter_name[now_selected_index]), 600, textWidth(letter_name[now_selected_index]), 80);
       fill(255);
       text(letter_name[now_selected_index], 1275, 670);
       noFill();
@@ -230,11 +249,14 @@ function draw() {
       imageMode(CENTER);
       if (now_selected_index < img_letterA.length) {
         image(img_letterA[now_selected_index], center_pos.x, center_pos.y, img_letterA[now_selected_index].width, img_letterA[now_selected_index].height);
-      } else {
+      } else if (now_selected_index - img_letterA.length < img_letterB.length) {
         new_index = now_selected_index - img_letterA.length;
         if (new_index < img_letterB.length) {
-          image(img_letterB[new_index], center_pos.x, center_pos.y, img_letterB[new_index].width * 0.25, img_letterB[new_index].height * 0.25);
+          image(img_letterB[new_index], center_pos.x, center_pos.y, img_letterB[new_index].width, img_letterB[new_index].height);
         }
+      } else if (now_selected_index - img_letterA.length - img_letterB.length < img_letterC.length) {
+        image(img_letterC[new_index], center_pos.x, center_pos.y, img_letterC[new_index].width, img_letterC[new_index].height);
+
       }
       imageMode(CORNER);
       break;
@@ -283,7 +305,11 @@ function addNewMessage() {
     is_letter_shown[new_message_index] = true;
   } else {
     // shown before
-    coins++;
+    if (isRare) {
+      coins += 5;
+    } else {
+      coins++;
+    }
   }
 
   // add 1 message (index number) to results array 
@@ -322,19 +348,28 @@ function add10NewMessages() {
     if (out === 2) {
       new_message_index = img_letterA.length + int(floor(random(img_letterB.length)));
       cnt_rare++;
+      // check is letter shown before
+      if (is_letter_shown[new_message_index] == false) {
+        // not shown before
+        is_letter_shown[new_message_index] = true;
+      } else {
+        // shown before
+        coins += 5;
+      }
     } else {
       new_message_index = int(floor(random(img_letterA.length)));
+      // check is letter shown before
+      if (is_letter_shown[new_message_index] == false) {
+        // not shown before
+        is_letter_shown[new_message_index] = true;
+      } else {
+        // shown before
+        coins++;
+      }
 
     }
 
-    // check is letter shown before
-    if (is_letter_shown[new_message_index] == false) {
-      // not shown before
-      is_letter_shown[new_message_index] = true;
-    } else {
-      // shown before
-      coins++;
-    }
+
 
     results.push(new_message_index);
   }
@@ -460,6 +495,50 @@ function onInteraction() {
 
                 }
               }
+            } else if (index - img_letterA.length < img_letterB.length) {
+              let new_index = index - img_letterA.length;
+              let thumbnail_x = width / 6 * (i + 1);
+              let thumbnail_y = height / 3 * (j + 1);
+              let thumbnail_w = img_letterB[new_index].width * 0.25;
+              let thumbnail_h = img_letterB[new_index].height * 0.25
+              if (nowX >= (thumbnail_x - thumbnail_w * 0.5) && nowX <= (thumbnail_x + thumbnail_w * 0.5) &&
+                nowY >= (thumbnail_y - thumbnail_h * 0.5) && nowY <= (thumbnail_y + thumbnail_h * 0.5)) {
+
+                now_selected_index = index;
+                if (is_letter_shown[index] == false) {
+                  // if is not shown,
+                  // show window coin;
+                  is_coin_window_shown = true;
+                } else {
+                  // if is shown,
+                  status = 11;
+
+
+                }
+              }
+            } else if (index - img_letterA.length - img_letterB.length < img_letterC.length) {
+
+              let new_index = index - img_letterA.length - img_letterB.length;
+              let thumbnail_x = width / 6 * (i + 1);
+              let thumbnail_y = height / 3 * (j + 1);
+              let thumbnail_w = img_letterC[new_index].width * 0.25;
+              let thumbnail_h = img_letterC[new_index].height * 0.25
+              if (nowX >= (thumbnail_x - thumbnail_w * 0.5) && nowX <= (thumbnail_x + thumbnail_w * 0.5) &&
+                nowY >= (thumbnail_y - thumbnail_h * 0.5) && nowY <= (thumbnail_y + thumbnail_h * 0.5)) {
+
+                now_selected_index = index;
+                if (is_letter_shown[index] == false) {
+                  // if is not shown,
+                  // show window coin;
+                  is_coin_window_shown = true;
+                } else {
+                  // if is shown,
+                  status = 11;
+
+
+
+                }
+              }
             }
           }
         }
@@ -509,6 +588,7 @@ function changeStatus() {
       break;
     case 1:
       // page Gatcha.mp4 play
+      bgm.stop();
       if (isRare) {
         bg_gatcha_rare.time(0);
         bg_gatcha_rare.play();
@@ -519,12 +599,35 @@ function changeStatus() {
       break;
     case 2:
       // page Result
+      if (isRare) {
+        bg_gatcha_rare.stop();
+      } else {
+        bg_gatcha.stop();
+      }
+      if(!bgm.isPlaying())
+        bgm.loop();
       fadeIn = fadeInTime;
       break;
     case 3:
       status = 0;
       isRare = false;
       revealed_results = [];
+      break;
+
+    case 10:
+
+      let isComplete = true;
+      for (i = 0; i < is_letter_shown.length - 2; i++) {
+        if (is_letter_shown[i] === false) {
+          isComplete = false;
+          break;
+        }
+      }
+
+      if (isComplete) {
+        is_letter_shown[is_letter_shown.length - 1] = true;
+        is_letter_shown[is_letter_shown.length - 2] = true;
+      }
       break;
   }
 
