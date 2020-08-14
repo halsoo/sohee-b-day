@@ -78,7 +78,7 @@ function preload() {
     } else {
       img_letterA.push(loadImage('assets/letters/normal' + (i + 1) + '.png'));
     }
-    is_letter_shown.push(false);
+    is_letter_shown.push(true);
   }
 
   for (let i = 0; i < 23; i++) {
@@ -88,7 +88,7 @@ function preload() {
       img_letterB.push(loadImage('assets/letters/rare' + (i) + '.png'));
     }
 
-    is_letter_shown.push(false);
+    is_letter_shown.push(true);
   }
 
   img_letterC.push(loadImage('assets/letters/letter00.png'));
@@ -98,10 +98,10 @@ function preload() {
 
   max_album_page = floor((img_letterA.length + img_letterB.length + img_letterC.length) / 10);
 
-    
+
   bgm = loadSound('assets/bgm.mp3');
   bgm.playMode('restart');
-  
+
 }
 
 function setup() {
@@ -113,6 +113,8 @@ function setup() {
   // element. hide it and draw it to the canvas
   // instead
   bgm.loop();
+
+
 }
 
 function draw() {
@@ -237,14 +239,7 @@ function draw() {
       // page Viewer
       image(bg_viewer, 0, 0, 1280, 720);
 
-      textFont(myFont);
-      textSize(80);
-      textAlign(RIGHT);
-      fill(12, 25, 93);
-      rect(1275 - textWidth(letter_name[now_selected_index]), 600, textWidth(letter_name[now_selected_index]), 80);
-      fill(255);
-      text(letter_name[now_selected_index], 1275, 670);
-      noFill();
+
 
       imageMode(CENTER);
       if (now_selected_index < img_letterA.length) {
@@ -255,10 +250,22 @@ function draw() {
           image(img_letterB[new_index], center_pos.x, center_pos.y, img_letterB[new_index].width, img_letterB[new_index].height);
         }
       } else if (now_selected_index - img_letterA.length - img_letterB.length < img_letterC.length) {
-        image(img_letterC[new_index], center_pos.x, center_pos.y, img_letterC[new_index].width, img_letterC[new_index].height);
+        new_index = now_selected_index - img_letterA.length - img_letterB.length;
+        if (new_index < img_letterC.length) {
+          image(img_letterC[new_index], center_pos.x, center_pos.y, img_letterC[new_index].width, img_letterC[new_index].height);
+        }
 
       }
       imageMode(CORNER);
+
+      textFont(myFont);
+      textSize(80);
+      textAlign(RIGHT);
+      fill(12, 25, 93);
+      rect(1275 - textWidth(letter_name[now_selected_index]), 600, textWidth(letter_name[now_selected_index]), 80);
+      fill(255);
+      text(letter_name[now_selected_index], 1275, 670);
+      noFill();
       break;
   }
 }
@@ -547,7 +554,7 @@ function onInteraction() {
         if (nowX >= 760 && nowX <= 835 &&
           nowY >= 380 && nowY <= 420) {
           // If btn okay pressed,
-          if (coins - letter_price[now_selected_index] > 0) {
+          if (coins - letter_price[now_selected_index] >= 0) {
 
             coins -= letter_price[now_selected_index];
             is_letter_shown[now_selected_index] = true;
@@ -604,7 +611,7 @@ function changeStatus() {
       } else {
         bg_gatcha.stop();
       }
-      if(!bgm.isPlaying())
+      if (!bgm.isPlaying())
         bgm.loop();
       fadeIn = fadeInTime;
       break;
@@ -653,15 +660,6 @@ function drawMessage() {
 */
     index = results[0];
 
-    textFont(myFont);
-    textSize(80);
-    textAlign(RIGHT);
-    fill(12, 25, 93);
-    rect(1275 - textWidth(letter_name[index]), 600, textWidth(letter_name[index]), 80);
-    fill(255);
-    text(letter_name[index], 1275, 670);
-    noFill();
-
     if (index < img_letterA.length) {
       image(img_letterA[index], center_pos.x, center_pos.y);
       for (let i = 0; i < 3; i++) {
@@ -677,6 +675,14 @@ function drawMessage() {
     }
     imageMode(CORNER);
 
+    textFont(myFont);
+    textSize(80);
+    textAlign(RIGHT);
+    fill(12, 25, 93);
+    rect(1275 - textWidth(letter_name[index]), 600, textWidth(letter_name[index]), 80);
+    fill(255);
+    text(letter_name[index], 1275, 670);
+    noFill();
 
     // FADE EFFECT for each Message
     if (fadeIn > 0) {
